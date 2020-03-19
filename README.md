@@ -2,7 +2,7 @@ author : 이현록
 
 이 소스코드는 구일중학교의 급식정보를 구일중학교 공식 사이트에서 크롤링함으로서 동작합니다.
 
-사용 프로그램 : v0.1~v0.2 : Python IDLE, v0.3 : Visual Studio Code
+사용 프로그램 : v0.0~v0.2 : Python IDLE, v0.3 : Visual Studio Code
 
 ############원리 (v0.2~)
 
