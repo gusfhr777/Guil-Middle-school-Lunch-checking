@@ -1,15 +1,4 @@
 # author : 이현록
-# 이 소스코드는 구일중학교의 급식정보를 구일중학교 공식 사이트에서 크롤링함으로서 동작합니다.
-# 원리
-# 0. input으로 날짜를 입력받는다.
-# 1. http://guil.sen.ms.kr/65872/subMenu.do 사이트에 requests 모듈을 통해 날짜 정보를 POST 형식으로 보낸다.
-# 2. Beautifulsoup을 통해 파싱을 한 뒤, a태그로 서버에 전송되는 mlsvId값을 찾아낸다.
-# 3. 찾아낸 mlsvId값을 http://guil.sen.ms.kr/65872/subMenu.do 에 POST형식으로 보내서 급식정보를 얻는다.
-# 4. 얻은 급식정보를 파싱 및 정규표현식으로 잘 가공한 뒤, print로 출력한다.
-# v0.3 바뀐점
-# class사용으로 객체화. 크게 mlsvId 값을 얻는 함수와 그 값을 토대로 최종 급식정보를 얻는 함수가 있음.
-# 코드 최적화
-# 급식 정보가 없는 요일에는 '해당 요일에는 급식이 없습니다.' 출력.
 
 from bs4 import BeautifulSoup
 import requests
@@ -86,11 +75,26 @@ class Guilmeal:
         rp = requests.post(URL, data={'mlsvId': self.mlsvid})
         soup = BeautifulSoup(rp.text, 'html.parser')
         soup_filtered = soup.find_all('tbody')
-        soup_re = re.compile('[\t\r\f\v]')
-        
+        soup_re = re.compile('[\t\r\f\v\n]')
+
+        re_kcal = re.compile('칼로리(\d*)')
+
+        all_food_re = re.compile('식단식단(.*)칼로리')
+        all_food_re2 = re.compile('([가-힣ㄱ-ㅎa-zA-Z+-]*)[\d*,?]*?')
+
         for meal in soup_filtered:
-            print(soup_re.sub('', str(meal.text)))
+            to_match = soup_re.sub('', str(meal.text))
         
+        all_food = all_food_re.search(to_match).group(1)
+        all_foods_list = all_food_re2.findall(all_food)
+        all_foods_list = [v for v in all_foods_list if v]
+
+        self.all_foods_list = all_foods_list
+        self.kcal = re_kcal.search(to_match).group(1) 	
+        
+    def sayinfo(self):
+        print('급식 정보 : ', self.all_foods_list)
+        print(self.kcal, 'kcal')
 
 print("""
 author : lee hyun rok
@@ -98,7 +102,7 @@ author : lee hyun rok
 구일중 급식체크 프로그램입니다.
 8글자로 날짜를 입력해 주세요
 예시 : 2019-06-18(2019년 6월 18일)
-v0.3
+v0.4
 """)
 
 
@@ -108,8 +112,9 @@ while True:
     if guilmeal.get_mlsvid(date) == 0:
         continue
     else:
-        print(guilmeal.mlsvid)
         guilmeal.Getmeal()
         break
+
+guilmeal.sayinfo()
 
 input("종료하려면 아무 키나 누르세요...")
