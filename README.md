@@ -2,7 +2,7 @@ author : 이현록
 
 이 소스코드는 구일중학교의 급식정보를 구일중학교 공식 사이트에서 크롤링함으로서 동작합니다.
 
-사용 프로그램 : v0.0~v0.2 : Python IDLE, v0.3 : Visual Studio Code
+사용 프로그램 : v0.1~v0.2 : Python IDLE, v0.3 : Visual Studio Code
 
 ############원리 (v0.2~)
 
@@ -16,9 +16,15 @@ author : 이현록
 
 4. 얻은 급식정보를 파싱 및 정규표현식으로 잘 가공한 뒤, print로 출력한다.
 
+정보)
+http://guil.sen.ms.kr/65872/subMenu.do 사이트에 POST방식으로 viewType, siteId, arrMlsvId, srhMlsvYear, srhMlsvMonth값을 보내야 해당 년월일의 a태그에 내장된 mlsvId값을 알 수 있는데, siteId값과 viewType, arrMlsvId값은 고정값이므로 그냥 냅두고 srhMlsYear와 srhMlsvMonth 값에 각각 날짜 정보를 넣으면 해당 년, 달 의 mlsvId를 내장한 a태그들을 얻을 수 있다.
+
+정보2)
+http://guil.sen.ms.kr/dggb/module/mlsv/selectMlsvDetailPopup.do 사이트에 날마다 다른 mlsvId 값을 requests를 이용해 POST방식으로 보내면 급식 정보를 뱉어낸다
+
 #############
 
-v0.0
+v0.1
 
 최초 출시 - mlsvId값을 사용자가 직접 입력해야 작동함(완전하지 않음)
 
@@ -34,7 +40,9 @@ v0.2
 
 버그2 - 문자열, 공백 입력 시 아무 출력 없이 프로그램 종료됨
 
-#############
+
+
+##############
 
 v0.3
 
@@ -53,3 +61,11 @@ v0.3
 버그 수정
 
 v0.2의 버그1, 버그2 해결됨.
+
+#############
+
+v0.4
+
+기능 관련
+
+-> 정규표현식으로 급식 정보, kcal 정보를 변수 안에 저장한 뒤, 출력함
