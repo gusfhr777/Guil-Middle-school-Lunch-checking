@@ -8,13 +8,15 @@ author : 이현록
 
 0. input으로 날짜를 입력받는다.
 
-1. http://guil.sen.ms.kr/65872/subMenu.do 사이트에 requests 모듈을 통해 날짜 정보를 POST 형식으로 보낸다.
+1. http://guil.sen.ms.kr/65872/subMenu.do 사이트에 requests 모듈을 통해 날짜 정보, 기타 고정된 데이터를 POST 형식으로 보낸다.
 
 2. Beautifulsoup을 통해 파싱을 한 뒤, a태그로 서버에 전송되는 mlsvId값을 찾아낸다.
 
 3. 찾아낸 mlsvId값을 http://guil.sen.ms.kr/65872/subMenu.do 에 POST형식으로 보내서 급식정보를 얻는다.
 
-4. 얻은 급식정보를 파싱 및 정규표현식으로 잘 가공한 뒤, print로 출력한다.
+4. tbody를 기준으로 필요한 정보들을 얻고 정규표현식으로 잘 가공한다.
+
+5. 얻은 급식관련정보들을 print로 출력한다.
 
 정보)
 http://guil.sen.ms.kr/65872/subMenu.do 사이트에 POST방식으로 viewType, siteId, arrMlsvId, srhMlsvYear, srhMlsvMonth값을 보내야 해당 년월일의 a태그에 내장된 mlsvId값을 알 수 있는데, siteId값과 viewType, arrMlsvId값은 고정값이므로 그냥 냅두고 srhMlsYear와 srhMlsvMonth 값에 각각 날짜 정보를 넣으면 해당 년, 달 의 mlsvId를 내장한 a태그들을 얻을 수 있다.
