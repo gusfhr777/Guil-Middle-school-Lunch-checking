@@ -1,4 +1,4 @@
-# author : 이현록
+# author : gusfhr777
 
 from bs4 import BeautifulSoup
 import requests
